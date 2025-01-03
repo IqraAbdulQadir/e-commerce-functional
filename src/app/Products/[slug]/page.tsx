@@ -6,12 +6,17 @@ import ProductDetail from './ProductDetail'; // Import the client component
 
 export const dynamic = 'force-dynamic'; // Ensures dynamic fetching
 
-const ProductDetailPage = async ({ params }: { params: { slug: string } }) => {
-  'use params';
+// Define the proper type for params
+interface ProductDetailPageProps {
+  params: { slug: string };
+}
 
+const ProductDetailPage = async ({ params }: ProductDetailPageProps) => {
   const product = await getProductsBySlug(params.slug);
 
-  if (!product) return <p>Product not found!</p>;
+  if (!product) {
+    return <p>Product not found!</p>;
+  }
 
   return (
     <ProductDetail
@@ -20,7 +25,7 @@ const ProductDetailPage = async ({ params }: { params: { slug: string } }) => {
         name: product.name,
         price: product.price,
         description: product.description,
-        image: urlFor(product.image).url() || '/placeholder-image.png',
+        image: urlFor(product.image)?.url() || '/placeholder-image.png',
         category: product.category,
         inStock: product.inStock,
       }}
