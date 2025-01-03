@@ -9,9 +9,10 @@ const client = createClient({
 
 export async function GET() {
   try {
-    const products = await client.fetch('*[_type == "product"]') // Fetch all products
-    return NextResponse.json(products)
+    const products = await client.fetch('*[_type == "product"]'); // Fetch all products
+    return NextResponse.json(products);
   } catch (error) {
-    return NextResponse.error()
+    console.error('Error fetching products:', error); // Log the error
+    return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
   }
 }
